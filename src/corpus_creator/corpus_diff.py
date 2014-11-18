@@ -5,16 +5,13 @@
     computes the corpus diff
 '''
 
-from html2text import HTML2Text
 from collections import Counter
 from random import choice
-from hashlib import md5
 from string import ascii_letters
 
-ALPHANUMMERIC = ascii_letters + u"äöüÄÖÜßèéêÊÉçàô"
+from corpus_creator import checksum, get_text
 
-# computes a 24 bit checksum
-checksum = lambda text: md5(text.encode("utf8")).hexdigest()[:6]
+ALPHANUMMERIC = ascii_letters + u"äöüÄÖÜßèéêÊÉçàô"
 
 def suggest_anchors(from_text, num_anchors):
     '''
@@ -77,10 +74,6 @@ def corpus_diff(from_text, to_text):
 
 
 if __name__ == '__main__':
-    h = HTML2Text()
-    h.ignore_links = True
-    h.ignore_images = True
-    h.body_width = 0
-    text = h.handle(open("tests/Chur.html").read().decode("utf8"))
-    open("info.txt", "w").write(text.encode("utf8"))
+    text = get_text(open("tests/Chur.html").read().decode("utf8"))
+    #open("info.txt", "w").write(text.encode("utf8"))
     print corpus_diff(text, open("tests/Chur.txt").read().decode("utf8").strip())
