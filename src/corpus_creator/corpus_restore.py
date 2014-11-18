@@ -62,6 +62,7 @@ def extract_sentence_from_trigram(from_text, sentence_len, start_trigram, end_tr
     trigram_end_positions = list(find_all(from_text, end_trigram))
 
     valid_spawns = []
+
     for start_pos in trigram_start_positions:
         for end_pos in trigram_end_positions:
             if end_pos - start_pos + 3 == sentence_len:
@@ -93,7 +94,7 @@ def extract_sentence(from_text, anchors, sentence_cdiff):
         from_text=from_text,
         sentence_len=sentence_cdiff.sentence_length, 
         start_trigram=sentence_cdiff.start_trigram, 
-        end_trigram=sentence_cdiff.start_trigram, 
+        end_trigram=sentence_cdiff.end_trigram, 
         sentence_hash=sentence_cdiff.sentence_hash)
 
     if is_valid:
@@ -122,7 +123,7 @@ def corpus_restore(diff_file, working_directory="", html_url=""):
     else:
         fpath = os_join(working_directory, cdiff.url)
     from_text = get_text(get_resource(fpath))
-    open("info.txt", "w").write(from_text.encode("utf-8"))
+    # open("info.txt", "w").write(from_text.encode("utf-8"))
     anchors = determine_anchor_positions(from_text, cdiff.anchors)
 
     sentences = filter(None, (extract_sentence(from_text, anchors, sentence_cdiff) 

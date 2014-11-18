@@ -37,8 +37,8 @@ class CDiffFile(object):
     def _parse_sentence_diff(cls, line):
         lst = line.strip().split(" ")[1:]
         return CDiff(positions=map(int, lst[:-4]),
-                     start_trigram=lst[-4],
-                     end_trigram=lst[-3],
+                     start_trigram=lst[-4].decode("utf8"),
+                     end_trigram=lst[-3].decode("utf8"),
                      sentence_length=int(lst[-2]),
                      sentence_hash=lst[-1])
 
