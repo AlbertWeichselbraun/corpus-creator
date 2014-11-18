@@ -13,6 +13,7 @@ from random import choice
 from string import ascii_letters
 
 from corpus_creator import checksum, get_text
+from corpus_creator.toolkit import get_resource
 
 ALPHANUMMERIC = ascii_letters + u"äöüÄÖÜßèéêÊÉçàô"
 
@@ -76,7 +77,11 @@ def corpus_diff(from_text, to_text):
     return "\n".join(diff)
 
 
-if __name__ == '__main__':
-    text = get_text(open("tests/Chur.html").read().decode("utf8"))
-    #open("info.txt", "w").write(text.encode("utf8"))
-    print corpus_diff(text, open("tests/Chur.txt").read().decode("utf8").strip())
+def diff(text_url, html_url):
+    '''
+    helper function to compute the cdiff based on text and
+    html urls.
+    '''
+    from_text = get_text(get_resource(html_url))
+    to_text = get_resource(text_url)
+    return corpus_diff(from_text, to_text)

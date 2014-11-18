@@ -28,6 +28,27 @@ Researchers can publish these 'cdiff' files which can then be used to create the
 * conflict handling:
   1. based on the prefixes and suffixes
 
+### Command line client
+```sh
+usage: corpus-creator.py [-h] [--html-resource HTML_RESOURCE]
+                         [--txt-resource TXT_RESOURCE] [--output OUTPUT]
+                         [--working-directory WORKING_DIRECTORY] [--url URL]
+                         cdiff
+```
+
+**Example Calls**
+
+* create a cdiff based on an HTML and text resource
+```sh
+./corpus-creator.py --html-resource Chur.html --txt-resource Chur.txt Chur.cdiff
+```
+
+* restore the text based on the *cdiff* file:
+```sh
+./corpus-creator.py chur.cdiff
+```
+
+
 ### Example output and format description
 
 ```
@@ -45,7 +66,7 @@ Wikipedia,:13 Terracina:1005 seat:2285 sites;:8589 Planta,:19306 religion:19751 
 > -4632 -4187 14114 15106 6530 12834 -9646 Whi hn. 267 cff962
 ```
 
-***Format description***
+**Format description**
 
 ```
 at1:at1_pos| [at2:at2_pos, ...atn:atn_pos]
