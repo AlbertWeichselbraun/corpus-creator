@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-''' corpus-diff
-    computes the corpus diff
+''' 
+corpus-diff
+computes the corpus diff
+
+::author: Albert Weichselbraun <albert@weichselbraun.net>
 '''
 
 from collections import Counter
@@ -58,7 +61,7 @@ def corpus_diff(from_text, to_text):
         sentence_diff = [">"]
         start_index = from_text.find(sentence)     
         # add indices
-        for anchor_index in anchors:
+        for anchor_index in sorted(anchors):
             sentence_diff.append(str(start_index-anchor_index))
 
         # add letters, len and checksum

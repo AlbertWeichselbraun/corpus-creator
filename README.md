@@ -1,7 +1,7 @@
 Enables researchers to publish text corpora without violating the publisher's text copyrights.
 
-Corpus diff computes a 'cdif' file between an input HTML file and a list of sentences which have been extracted from the HTML file. 
-Researchers can publish these 'cdif' files which can then be used to create the corpus which they have used for their evaluations, provided that the input resource is still available.
+Corpus diff computes a 'cdiff' file between an input HTML file and a list of sentences which have been extracted from the HTML file. 
+Researchers can publish these 'cdiff' files which can then be used to create the corpus which they have used for their evaluations, provided that the input resource is still available.
 
 ## Workflow
 
