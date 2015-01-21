@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from sys import stdout
 
 from corpus_creator.corpus_restore import corpus_restore
-from corpus_creator.corpus_diff import diff
+from corpus_creator.corpus_diff import get_diff
 
 def parse_arguments():
     parser = ArgumentParser()
@@ -26,7 +26,7 @@ output_file = stdout if not args.output else open(args.output, 'w')
 
 if args.html_resource and args.txt_resource:
     with open(args.cdiff, 'w') as f:
-        f.write(diff(text_url=args.txt_resource, html_url=args.html_resource))
+        f.write(get_diff(destination_url=args.txt_resource, source_url=args.html_resource))
 else:
     # apply cdiff
     sentences = corpus_restore(diff_file=args.cdiff,
@@ -34,4 +34,3 @@ else:
         html_url=args.url)
 
     output_file.write(sentences.encode("utf-8"))
-

@@ -20,10 +20,12 @@ def corpus_diff(source_url, from_text, to_text):
 
     for sentence in to_text.split("\n"):
         sentence = sentence.strip()
-        if not sentence in from_text:
-            warn("The source file does not contain the following sentence: \
-                '{sentence}'. Cdiff won't be able to recreate it.".format(
-                sentence=sentence))
+        if not sentence: 
+            continue
+        elif not sentence in from_text:
+            warn("Skipping sentence: The source file does not contain the following sentence: '{sentence}'. Cdiff won't be able to recreate it.".format(
+                sentence=sentence.encode("utf8")))
+            continue
         sentence_diff = [">"]
         # add letters, len and checksum
         sentence_diff.append(sentence[:3].encode("utf8"))

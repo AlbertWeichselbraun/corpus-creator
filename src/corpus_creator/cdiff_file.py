@@ -27,7 +27,7 @@ class CDiffFile(object):
         start_trigram, end_trigram, sentence_length, sentence_hash = line.strip().split(" ")[1:]
         return CDiff(start_trigram,
                      end_trigram,
-                     sentence_length,
+                     int(sentence_length),
                      sentence_hash)
 
 

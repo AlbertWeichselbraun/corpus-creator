@@ -105,6 +105,6 @@ def corpus_restore(diff_file, working_directory="", html_url=""):
 if __name__ == '__main__':
     TEXT = get_text(open("tests/Chur.html").read().decode("utf8"))
     #open("info.txt", "w").write(text.encode("utf8"))
-    print corpus_diff(source_url='tests/Chur.html',
+    print(corpus_diff(source_url='tests/Chur.html',
                       from_text=TEXT, 
-                      to_text=open("tests/Chur.txt").read().decode("utf8").strip())
+                      to_text=open("tests/Chur.txt").read().decode("utf8").strip()))
