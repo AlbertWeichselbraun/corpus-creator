@@ -7,7 +7,7 @@ test-corpus-restore
 ::author: Albert Weichselbraun <albert@weichselbraun.net>
 '''
 
-from os.path import dirname
+from os.path import dirname, join as os_join
 
 from corpus_creator.corpus_restore import corpus_restore, extract_sentence_from_trigram
 
@@ -39,11 +39,11 @@ Chur or Coire[3] is the capital of the Swiss canton of Graubünden and lies in t
 
 def test_corpus_restore():
     ''' test the corpus restore sequence '''
-    with open(CORPUS_FILE) as f:
+    with open(os_join(TEST_DIR, CORPUS_FILE)) as f:
         reference_sentences = f.read().decode("utf-8").strip()
 
     for input_file in INPUT_HTML:
-        sentences = corpus_restore(diff_file=INPUT_CDIFF, 
+        sentences = corpus_restore(diff_file=os_join(TEST_DIR, INPUT_CDIFF), 
             working_directory=TEST_DIR, html_url=input_file)
 
         assert sentences == reference_sentences
