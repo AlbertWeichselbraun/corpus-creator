@@ -21,4 +21,3 @@ def get_text(html):
     h.ignore_emphasis = True
     h.body_width = 0
     return h.handle(html)
-

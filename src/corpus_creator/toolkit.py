@@ -6,7 +6,7 @@ Helper functions
 
 ::author: Albert Weichselbraun <albert@weichselbraun.net>
 '''
-
+from urllib2 import urlopen
 
 def find_all(text, substring):
     ''' 
@@ -22,10 +22,16 @@ def find_all(text, substring):
 
 
 def get_resource(url):
-    ''' returns the content of the given resource '''
+    ''' returns the content of the given resource 
+    
+    :param url: \
+        the web or local url of the resource.
+    :returns: \
+        the resource's content
+    '''
     if url.startswith('http://') or url.startswith('https://'):
-        # We currently do not support Web resources
-        return ''
+        f = urlopen(url)
+        return f.read().decode('utf-8')
 
     with open(url) as f:
-        return f.read().decode("utf-8")
+        return f.read().decode('utf-8')
