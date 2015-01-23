@@ -11,6 +11,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument("cdiff", help="The cdiff file to read or write.")
     parser.add_argument("--html-resource", help="URL of the HTML resource", default=None)
+    parser.add_argument("--bing-api-key", type="string", help="Search for the source files on bing using the given api key")
     parser.add_argument("--txt-resource", help="URL of the input text resource", default=None)
     parser.add_argument("--output", "-o", help="An optional output file (default: stdout)", default=None)
     parser.add_argument("--working-directory", help="An optional working directory for on disk files", default="")
@@ -24,9 +25,12 @@ def parse_arguments():
 args = parse_arguments()
 output_file = stdout if not args.output else open(args.output, 'w')
 
-if args.html_resource and args.txt_resource:
-    with open(args.cdiff, 'w') as f:
-        f.write(get_diff(destination_url=args.txt_resource, source_url=args.html_resource))
+if args.txt_resource:
+    if not args.html_resource and args.bing_api_key:
+        print "Warning: No source file specified. Trying to query bing for potential matches."
+    else:
+        with open(args.cdiff, 'w') as f:
+            f.write(get_diff(destination_url=args.txt_resource, source_url=args.html_resource))
 else:
     # apply cdiff
     sentences = corpus_restore(diff_file=args.cdiff,
