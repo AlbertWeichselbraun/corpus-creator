@@ -24,12 +24,12 @@ def corpus_diff(source_url, from_text, to_text):
             continue
         elif not sentence in from_text:
             warn("Skipping sentence: The source file does not contain the following sentence: '{sentence}'. Cdiff won't be able to recreate it.".format(
-                sentence=sentence.encode("utf8")))
+                sentence=sentence))
             continue
         sentence_diff = [">"]
         # add letters, len and checksum
-        sentence_diff.append(sentence[:3].encode("utf8"))
-        sentence_diff.append(sentence[-3:].encode("utf8"))
+        sentence_diff.append(sentence[:3])
+        sentence_diff.append(sentence[-3:])
         sentence_diff.append(str(len(sentence)))
         sentence_diff.append(checksum(sentence))
 
@@ -55,4 +55,5 @@ def get_diff(destination_url, source_url):
     '''
     from_text = get_text(get_resource(source_url))
     to_text = get_resource(destination_url)
+    # open("info.awi", "w").write(from_text)
     return corpus_diff(source_url, from_text, to_text)

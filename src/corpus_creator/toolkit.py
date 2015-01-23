@@ -6,7 +6,7 @@ Helper functions
 
 ::author: Albert Weichselbraun <albert@weichselbraun.net>
 '''
-from urllib2 import urlopen
+from urllib.request import urlopen
 
 def find_all(text, substring):
     ''' 
@@ -33,5 +33,6 @@ def get_resource(url):
         f = urlopen(url)
         return f.read().decode('utf-8')
 
-    with open(url) as f:
-        return f.read().decode('utf-8')
+    # read files
+    with open(url, encoding='utf-8') as f:
+        return f.read()

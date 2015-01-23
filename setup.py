@@ -25,5 +25,4 @@ setup(
       ###########################################
       ## Package List
       packages = find_packages('src'),
-
 )

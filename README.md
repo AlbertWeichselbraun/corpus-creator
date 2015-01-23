@@ -8,14 +8,11 @@ Researchers can publish these 'cdiff' files which can then be used to create the
 ### Generate corpus diff
 
 * convert the input document to text
-* obtain a list of unique text tokens within the document
-* select the first, the last and "n-2" random anchors within the document
 * compare the input document with the output document and compute for every sentence
-  1. the relative position to all "n" anchors, 
-  2. its first three letters
-  3. its last three letters
-  4. the sentence length
-  5. the first 6 bytes of the sentence's md5sum
+  1. its first three letters
+  2. its last three letters
+  3. the sentence length
+  4. the first 6 bytes of the sentence's md5sum
 
 
 ### Apply corpus diff
@@ -80,3 +77,4 @@ http://en.wikipedia.org/wiki/Chur
 ## Future work:
 
 * try to obtain open-archive links for documents
+
