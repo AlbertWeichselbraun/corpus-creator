@@ -20,12 +20,10 @@ workflow
 from random import choice
 from random import randint
 
-from eWRT.ws.bing.search import BingSearch
-
 class SourceFinder(object):
 
-    def __init__(self, text, query_sentence_count=3, 
-        query_n_gram_size=3):
+    def __init__(self, text, query_sentence_count=7, 
+        query_n_gram_size=7):
         '''
         :param text: \
             the text for which we search the source file
@@ -35,34 +33,38 @@ class SourceFinder(object):
         :param query_n_gram_size: \
             number of coherent words to consider in the query
         '''
-        self.query_string = get_query(text, query_sentence_count, query_n_gram_size)
+        self.search_terms = self.get_search_terms(text, query_sentence_count, 
+                query_n_gram_size)
 
-    def search(self, search_engine, no_results):
+    def search(self, search_engine, search_suffix=[], no_results=1):
         '''
         use the given search_engine to obtain potential sources
         :param search_engine: \
             an ``eWRT.ws.AbstractIterableWebSource`` used for the query.
+        :param search_suffix: \
+            an optional list of additional search strings (e.g. ``['site:nzz.ch']``)
         :param no_results: \
             the number of results to return.
 
         :returns: \
             a list of links with potential web sources
         '''
-        results = search_engine.search_documents(self.query_string, no_results)
+        self.search_terms.extend(search_suffix)
+        # print(self.search_terms)
+        # print(" ".join(self.search_terms))
+        results = list(search_engine.search_documents([" ".join(self.search_terms)], no_results))
         results = results[:no_results]
 
         return [result['url'] for result in results]
 
     @staticmethod
-    def get_query(text, query_sentence_count, query_n_gram_size):
+    def get_search_terms(text, query_sentence_count, query_n_gram_size):
         '''
         :returns: \
-            the query for the given parameters
+            a list of search terms obtained from the given text
         '''
-        query_string = [ '"{0}"'.format(SourceFinder.select_query_ngram(sentence))
-                         for sentence in SourceFinder.select_query_sentences(
-                         text, query_sentence_count)]
-        return " ".join(query_string)
+        return [ SourceFinder.select_query_ngram(sentence, query_n_gram_size)
+                 for sentence in SourceFinder.select_query_sentences(text, query_sentence_count)]
 
     @staticmethod
     def select_query_sentences(text, query_sentence_count):
@@ -70,7 +72,9 @@ class SourceFinder(object):
         selects ``query_sentence_count`` sentences from the given text for the
         search engine query
         '''
-        source_sentences = text.split("\n")
+        source_sentences = [sentence.strip() 
+                            for sentence in text.strip().split("\n") 
+                            if sentence.strip()]
         query_sentence_count = min(len(source_sentences), query_sentence_count)
 
         query_sentences = set()
@@ -92,11 +96,19 @@ class SourceFinder(object):
             a query string comprising ``query_n_gram_size`` words.
         '''
         words = sentence.split(" ")
-        max_word_index = max(len(words)-query_n_gram_size, 0)
 
+        max_word_index = max(len(words)-query_n_gram_size, 0)
         word_index = randint(0, max_word_index)
+
         selected_words = words[word_index:word_index+query_n_gram_size]
-        return " ".join(selected_words)
+        selected_alnum_words = [word for word in selected_words if word.isalnum()]
+        
+        # only quote the string if all words are alphanumerical
+        search_words = " ".join(selected_alnum_words)
+        if len(selected_words) == len(selected_alnum_words):
+            return '"{0}"'.format(search_words)
+        else:
+            return search_words
 
 # ---------------------------------------------------------------------------
 # Unittesting
